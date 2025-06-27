@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepWiki GitHub Extension</title>
+    <style>
+        body {
+            width: 300px;
+            padding: 20px;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            background: #ffffff;
+            color: #24292f;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: #24292f;
+        }
+
+        .subtitle {
+            margin: 4px 0 0;
+            font-size: 12px;
+            color: #656d76;
+        }
+
+        .info {
+            background: #f6f8fa;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .info-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #24292f;
+        }
+
+        .info-text {
+            color: #656d76;
+            font-size: 13px;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        .status.active {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status.inactive {
+            background: #fef2f2;
+            color: #991b1b;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .status.active .status-dot {
+            background: #22c55e;
+        }
+
+        .status.inactive .status-dot {
+            background: #ef4444;
+        }
+
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .link-btn {
+            padding: 8px 12px;
+            background: #f6f8fa;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #24292f;
+            text-align: center;
+            font-size: 12px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 32px;
+        }
+
+        .link-btn:hover {
+            background: #f3f4f6;
+            text-decoration: none;
+        }
+
+        .link-btn.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            font-weight: 500;
+        }
+
+        .link-btn.primary:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+        }
+
+        .link-btn svg {
+            flex-shrink: 0;
+        }
+
+        /* Two column layout for bottom links */
+        .links .bottom-links {
+            display: flex;
+            gap: 6px;
+        }
+
+        .links .bottom-links .link-btn {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.374 0 0 5.373 0 12s5.374 12 12 12 12-5.373 12-12S18.626 0 12 0zm5.568 13.8H14.32c-.137-.22-.297-.439-.475-.659A14.075 14.075 0 0 0 12 11.24a14.12 14.12 0 0 0-1.845 1.9c-.178.22-.338.44-.475.66H6.432v-3.6h3.248c.137.22.297.439.475.659A14.075 14.075 0 0 0 12 12.76a14.12 14.12 0 0 0 1.845-1.9c.178-.22.338-.44.475-.66h3.248v3.6z"/>
+            </svg>
+        </div>
+        <h1>DeepWiki</h1>
+        <div class="subtitle">GitHub Extension</div>
+    </div>
+
+    <div id="status" class="status">
+        <div class="status-dot"></div>
+        <span id="status-text">Checking...</span>
+    </div>
+
+    <div class="info">
+        <div class="info-title">How it works</div>
+        <div class="info-text">
+            This extension adds a "DeepWiki" button to GitHub repository pages. Click it to view the repository documentation on DeepWiki.
+        </div>
+    </div>
+
+    <div class="links">
+        <!-- Quick repo link will be inserted here dynamically by popup.js -->
+        <div class="bottom-links">
+            <a href="https://deepwiki.com" target="_blank" class="link-btn primary">Visit DeepWiki</a>
+            <a href="https://github.com" target="_blank" class="link-btn">GitHub</a>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html> 

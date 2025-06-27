@@ -1,0 +1,108 @@
+/* DeepWiki GitHub Extension Styles */
+
+.deepwiki-container {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 8px;
+    /* Remove default margin-left since we want it to be first */
+}
+
+.deepwiki-container.deepwiki-fallback {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 6px;
+    padding: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    backdrop-filter: blur(10px);
+}
+
+.deepwiki-btn {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 16px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white !important;
+    text-decoration: none !important;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: 0 1px 0 rgba(27, 31, 35, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    height: 32px;
+    /* Match GitHub's button styling */
+}
+
+.deepwiki-btn:hover {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%) !important;
+    color: white !important;
+    text-decoration: none !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.16), 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.deepwiki-btn:focus {
+    outline: 2px solid #4285f4;
+    outline-offset: 2px;
+}
+
+.deepwiki-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.deepwiki-btn svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+/* GitHub dark mode support */
+@media (prefers-color-scheme: dark) {
+    .deepwiki-container.deepwiki-fallback {
+        background: rgba(33, 38, 45, 0.95);
+        color: #f0f6fc;
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .deepwiki-btn {
+        padding: 4px 8px;
+        font-size: 12px;
+        gap: 4px;
+        height: 28px;
+    }
+    
+    .deepwiki-btn svg {
+        width: 14px;
+        height: 14px;
+    }
+    
+    /* Ensure proper spacing on mobile */
+    .deepwiki-container {
+        margin-right: 4px;
+    }
+}
+
+/* Integration with GitHub's existing button styles */
+.btn + .deepwiki-container,
+.BtnGroup + .deepwiki-container {
+    margin-left: 8px;
+}
+
+/* Ensure proper spacing in various GitHub layouts */
+.repository-content .deepwiki-container {
+    margin-left: 16px;
+}
+
+.f4.mb-3 + .deepwiki-container {
+    margin-top: 8px;
+} 
