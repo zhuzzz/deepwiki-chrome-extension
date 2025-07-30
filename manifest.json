@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "DeepWiki GitHub Extension",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Adds a DeepWiki button to GitHub repository pages for quick navigation",
   "permissions": [
     "activeTab"
