@@ -105,9 +105,18 @@ Replace the placeholder files with actual PNG icons before publishing.
 ## Privacy & Security
 
 - **Minimal Permissions**: Only requests access to the current active tab
-- **No Data Collection**: The extension doesn't collect or transmit any user data
+- **Limited Data Collection**: Collects anonymous usage analytics to improve functionality
+- **No Personal Data**: No personal information, browsing history, or repository content is collected
 - **Open Source**: All code is visible and auditable
 - **Secure**: Follows Chrome extension security best practices
+
+### Data Collection Notice
+This extension uses Google Analytics to collect anonymous usage data including:
+- Extension popup open/close events
+- Button click interactions
+- General usage patterns
+
+**No personal information, repository content, or browsing history is collected.**
 
 ## Troubleshooting
 

@@ -145,7 +145,6 @@
             flex-shrink: 0;
         }
 
-        /* Two column layout for bottom links */
         .links .bottom-links {
             display: flex;
             gap: 6px;
@@ -180,11 +179,14 @@
     </div>
 
     <div class="links">
-        <!-- Quick repo link will be inserted here dynamically by popup.js -->
         <div class="bottom-links">
             <a href="https://deepwiki.com" target="_blank" class="link-btn primary">Visit DeepWiki</a>
             <a href="https://github.com" target="_blank" class="link-btn">GitHub</a>
         </div>
+    </div>
+
+    <div style="margin-top: 12px; padding: 8px; background: #f6f8fa; border-radius: 4px; font-size: 10px; color: #656d76; text-align: center;">
+        This extension collects anonymous usage data to improve functionality.
     </div>
 
     <script src="popup.js"></script>

@@ -50,121 +50,106 @@
     }
 
     // Function to insert the button into the page
-    function insertButton() {
-        // Remove existing button if it exists
-        const existingButton = document.getElementById('deepwiki-button');
-        if (existingButton) {
-            existingButton.remove();
-        }
+    function insertDeepWikiButton() {
+        // Remove any existing buttons first
+        const existingButtons = document.querySelectorAll('.deepwiki-container');
+        existingButtons.forEach(btn => btn.remove());
 
-        // Check if we're on a repository page
-        if (!isRepositoryPage()) {
-            return;
-        }
+        const repoInfo = getRepoInfo();
+        if (!repoInfo) return;
 
-        // Try to find the Watch button and insert DeepWiki button to its left
-        const watchButtonSelectors = [
-            // Modern GitHub layout - Watch button area
-            '[data-testid="watch-button"]',
-            '[data-test-selector="watch-button"]',
-            'button[aria-label*="Watch"]',
-            'button[aria-label*="watch"]',
-            '.js-social-form button',
-            // Alternative selectors for the action buttons area
-            'div[data-view-component="true"] > div.d-flex > div:first-child',
-            '.js-social-container',
-            '.BtnGroup-item:first-child',
-            // Broader container selectors
-            'div.d-flex.flex-wrap.flex-items-center.mb-3 > div:first-child',
-            'div[data-testid="repository-home-header"] div.d-flex.flex-wrap div:first-child'
+        console.log('Repository info:', repoInfo);
+
+        let insertionTarget = null;
+        let insertionMethod = 'append';
+
+        // First try to find the visible breadcrumb elements
+        const visibleBreadcrumbSelectors = [
+            '.AppHeader-context-item:not([tabindex="-1"])', // Visible breadcrumb items only
+            '.AppHeader-context-item-label'
         ];
 
-        let watchButton = null;
-        let insertionTarget = null;
+        for (const selector of visibleBreadcrumbSelectors) {
+            const breadcrumbItems = document.querySelectorAll(selector);
+            console.log(`Found ${breadcrumbItems.length} items with selector: ${selector}`);
+            
+            for (let i = 0; i < breadcrumbItems.length; i++) {
+                const item = breadcrumbItems[i];
+                const text = item.textContent.trim();
+                console.log(`Visible breadcrumb item ${i}:`, text, item);
+                
+                // Look for the repository name
+                if (text === repoInfo.repo || text.includes(repoInfo.repo)) {
+                    console.log('Found repo name in visible breadcrumb:', text);
+                    insertionTarget = item;
+                    insertionMethod = 'after';
+                    break;
+                }
+            }
+            
+            if (insertionTarget) break;
+        }
 
-        // Find the Watch button or its container
-        for (const selector of watchButtonSelectors) {
-            watchButton = document.querySelector(selector);
-            if (watchButton) {
-                // If we found the watch button, we want to insert before its parent container
-                insertionTarget = watchButton.closest('.d-flex') || watchButton.parentElement;
-                break;
+        // If we didn't find the repo name in visible breadcrumbs, 
+        // look for the last visible breadcrumb item (which should be after the separator)
+        if (!insertionTarget) {
+            const lastVisibleItem = document.querySelector('.AppHeader-context-item:not([tabindex="-1"]):last-of-type');
+            if (lastVisibleItem && lastVisibleItem.textContent.trim() === repoInfo.owner) {
+                console.log('Using owner breadcrumb as insertion point');
+                insertionTarget = lastVisibleItem;
+                insertionMethod = 'after';
             }
         }
 
-        // Alternative approach: look for the action buttons container
+        // Fallback: try main repo page selectors
         if (!insertionTarget) {
-            const actionContainerSelectors = [
-                // Repository action buttons container
-                'div[data-testid="repository-home-header"] .d-flex.flex-wrap.flex-items-center.mb-3',
-                '.repository-content .d-flex.flex-wrap.flex-items-center.mb-3',
-                'div.d-flex.flex-wrap.flex-items-center.mb-3',
-                // Legacy selectors
-                '.js-social-container',
-                '.social-count',
-                '.pagehead-actions'
+            console.log('Trying fallback selectors');
+            const mainPageSelectors = [
+                'h1[data-testid="repository-name-heading"]',
+                'h1.public strong a',
+                'h1 strong a[data-pjax="#repo-content-pjax-container"]'
             ];
 
-            for (const selector of actionContainerSelectors) {
-                insertionTarget = document.querySelector(selector);
-                if (insertionTarget) {
+            for (const selector of mainPageSelectors) {
+                const element = document.querySelector(selector);
+                if (element) {
+                    console.log('Found fallback element with selector:', selector);
+                    insertionTarget = element.parentElement;
+                    insertionMethod = 'append';
                     break;
                 }
             }
         }
 
         if (insertionTarget) {
+            console.log('Final insertion target:', insertionTarget);
+            console.log('Final insertion method:', insertionMethod);
+            
             const button = createDeepWikiButton();
             if (button) {
-                // Create a container for our button that matches GitHub's button style
                 const buttonContainer = document.createElement('div');
-                buttonContainer.className = 'deepwiki-container';
-                buttonContainer.style.display = 'inline-flex';
-                buttonContainer.style.marginRight = '8px';
+                buttonContainer.className = 'deepwiki-container deepwiki-header';
                 buttonContainer.appendChild(button);
                 
-                // Insert the button at the beginning of the action buttons area
-                insertionTarget.insertBefore(buttonContainer, insertionTarget.firstChild);
+                if (insertionMethod === 'after') {
+                    insertionTarget.parentElement.insertBefore(buttonContainer, insertionTarget.nextSibling);
+                    console.log('Inserted button AFTER target element');
+                } else {
+                    insertionTarget.appendChild(buttonContainer);
+                    console.log('Appended button TO target element');
+                }
+                
+                console.log('DeepWiki button inserted successfully');
             }
         } else {
-            // Fallback: try original selectors
-            const fallbackSelectors = [
-                'div[data-target="repository-details-container"] .BorderGrid-row .BorderGrid-cell:last-child',
-                '.repository-content .d-flex.flex-wrap.flex-items-center.wb-break-word.f3.text-normal',
-                'div[data-testid="repository-home-header"] .d-flex.flex-wrap.flex-items-center'
-            ];
-
-            let targetContainer = null;
-            for (const selector of fallbackSelectors) {
-                targetContainer = document.querySelector(selector);
-                if (targetContainer) break;
-            }
-
-            if (targetContainer) {
-                const button = createDeepWikiButton();
-                if (button) {
-                    const buttonContainer = document.createElement('div');
-                    buttonContainer.className = 'deepwiki-container';
-                    buttonContainer.appendChild(button);
-                    targetContainer.appendChild(buttonContainer);
-                }
-            } else {
-                // Last resort: fixed position in top right
-                const button = createDeepWikiButton();
-                if (button) {
-                    const buttonContainer = document.createElement('div');
-                    buttonContainer.className = 'deepwiki-container deepwiki-fallback';
-                    buttonContainer.appendChild(button);
-                    document.body.appendChild(buttonContainer);
-                }
-            }
+            console.log('No suitable insertion target found');
         }
     }
 
     // Initialize the extension
     function init() {
         // Insert button on initial load
-        insertButton();
+        insertDeepWikiButton();
 
         // Watch for navigation changes (GitHub uses pushState navigation)
         let lastUrl = location.href;
@@ -173,13 +158,13 @@
             if (url !== lastUrl) {
                 lastUrl = url;
                 // Delay to ensure the page has loaded
-                setTimeout(insertButton, 1000);
+                setTimeout(insertDeepWikiButton, 1000);
             }
         }).observe(document, { subtree: true, childList: true });
 
         // Also listen for popstate events
         window.addEventListener('popstate', () => {
-            setTimeout(insertButton, 500);
+            setTimeout(insertDeepWikiButton, 500);
         });
     }
 

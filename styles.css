@@ -105,4 +105,42 @@
 
 .f4.mb-3 + .deepwiki-container {
     margin-top: 8px;
-} 
+}
+
+/* Header placement for non-main repo pages */
+.deepwiki-container.deepwiki-header {
+    display: inline-flex;
+    margin-left: 12px;
+    margin-right: 0;
+}
+
+.deepwiki-container.deepwiki-header .deepwiki-btn {
+    padding: 4px 12px;
+    font-size: 12px;
+    height: 28px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 4px;
+}
+
+.deepwiki-container.deepwiki-header .deepwiki-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Responsive adjustments for header placement */
+@media (max-width: 768px) {
+    .deepwiki-container.deepwiki-header {
+        margin-left: 8px;
+    }
+    
+    .deepwiki-container.deepwiki-header .deepwiki-btn {
+        padding: 3px 8px;
+        font-size: 11px;
+        height: 24px;
+    }
+    
+    .deepwiki-container.deepwiki-header .deepwiki-btn svg {
+        width: 12px;
+        height: 12px;
+    }
+}
